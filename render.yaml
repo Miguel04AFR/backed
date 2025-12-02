@@ -3,7 +3,7 @@ services:
     name: constructora-cchang-api
     env: node
     region: oregon
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --production=false && npm run build
     startCommand: npm run start:prod
     healthCheckPath: /api/health
     autoDeploy: true
