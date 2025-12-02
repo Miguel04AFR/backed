@@ -27,11 +27,11 @@ export const DatabaseProvide: DynamicModule = TypeOrmModule.forRootAsync({
                 database: parsed.database || 'constructora',
                 ssl: { rejectUnauthorized: false }, // SSL obligatorio en Render
                 autoLoadEntities: true,
-                synchronize: false, //false en produccion
-                logging: false,
+                synchronize: true, //false en produccion
+                logging: true,
                 extra: {
                     max: 20,
-                    connectionTimeoutMillis: 5000,
+                    connectionTimeoutMillis: 10000,
                 },
             };
         } 
