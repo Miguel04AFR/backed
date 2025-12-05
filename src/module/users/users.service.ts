@@ -81,7 +81,7 @@ const hashearContra = await bcrypt.hash(createUserDto.password, 10);
   return await this.usersRepository.save(actUser);
 }
 
-     async deleteUser(id: number): Promise<{ sms: string }> {
+     async deleteUser(id: number): Promise<void>  {
         const eliminarU = await this.encontrarUsuario(id);
         
         if (!eliminarU) {
@@ -89,7 +89,6 @@ const hashearContra = await bcrypt.hash(createUserDto.password, 10);
         }
 
         await this.usersRepository.remove(eliminarU); // Elimina 1 elemento en la posicion
-        return { sms: `Usuario con ID ${id} eliminado correctamente` };
     }
 
      async cambiarRol(userId: number, rol: string): Promise<User> {

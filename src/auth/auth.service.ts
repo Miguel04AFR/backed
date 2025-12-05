@@ -39,8 +39,8 @@ export class AuthService {
     };
   }
 
-  // Hashear contraseñas al crear usuario
-  async hashPassword(password: string): Promise<string> {//hashear es que hace que la contraseña sea irreconocible
+  // Hashear contrasenas 
+  async hashPassword(password: string): Promise<string> {//hashear es que hace que la contrasena sea irreconocible
     return await bcrypt.hash(password, 10);
   }
 }

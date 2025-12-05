@@ -42,10 +42,9 @@ export class UsersController {
         return this.usersService.updUser(id, updateUserDto);
     }
 
-    @Roles('admin')
+    @Roles('admin', 'superAdmin')
     @UseGuards(JwtAuthGuard, RoleGuard)
     @Delete(':id')
-    @HttpCode(HttpStatus.NO_CONTENT)  // 204(estandar para DELETE, si lo diced es que se elimino)
     async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<void> {
         await this.usersService.deleteUser(id);
         // No devuelve contenido, solo status 204
