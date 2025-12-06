@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards, HttpCode, HttpStatus, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards, HttpCode, HttpStatus, UploadedFiles, Query } from '@nestjs/common';
 import { CasasService } from './casas.service';
 import { CreateCasaDto } from './dto/create-casa.dto';
 import { UpdateCasaDto } from './dto/update-casa.dto';
@@ -7,6 +7,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { RoleGuard } from 'src/auth/role.guard';
 import { Roles } from 'src/decorators/Roles.decorator';
+import { PaginacionQueryDto } from './dto/paginacion-query.dto';
 
 
 @Controller('casas')
@@ -17,6 +18,11 @@ export class CasasController {
   @Get()
   async findCasas(): Promise<Casa[]> {
     return await this.casasService.getCasas();
+  }
+
+   @Get('pag')
+  async findCasasPag(@Query() paginacion: PaginacionQueryDto): Promise<Casa[]> {   
+    return await this.casasService.getCasasPag(paginacion);
   }
 
   @Get(':id')

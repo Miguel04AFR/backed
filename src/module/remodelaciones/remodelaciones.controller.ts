@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, HttpCode, HttpStatus, UseGuards, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, HttpCode, HttpStatus, UseGuards, UploadedFiles, Query } from '@nestjs/common';
 import { RemodelacionesService } from './remodelaciones.service';
 import { CreateRemodelacionDto } from './dto/create-remodelacion.dto';
 import { UpdateRemodelacionDto } from './dto/update-remodelacion.dto';
@@ -7,6 +7,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { RoleGuard } from 'src/auth/role.guard';
 import { Roles } from 'src/decorators/Roles.decorator';
+import { PaginacionQueryDto } from './dto/paginacion-query.dto';
 
 @Controller('remodelaciones')
 export class RemodelacionesController {
@@ -24,6 +25,11 @@ export class RemodelacionesController {
     @Get()
     async findRemodelaciones(): Promise<Remodelacion[]> {
         return await this.remodelacionesService.getRemodelaciones();
+    }
+
+     @Get('pag')
+    async findRemodelacionesPag(@Query() paginacion: PaginacionQueryDto): Promise<Remodelacion[]> {
+        return await this.remodelacionesService.getRemodelacionesPag(paginacion);
     }
 
 

@@ -4,6 +4,8 @@ import { UpdateCasaDto } from './dto/update-casa.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Casa } from './entities/casa.entity';
+import { PaginacionQueryDto } from './dto/paginacion-query.dto';
+import { take } from 'rxjs';
 
 @Injectable()
 export class CasasService {
@@ -19,6 +21,10 @@ export class CasasService {
 
   async getCasas(): Promise<Casa[]> {
     return await this.casaRepository.find();
+  }
+
+  async getCasasPag({limit , offset}: PaginacionQueryDto): Promise<Casa[]> {
+    return await this.casaRepository.find({ skip: offset, take: limit });
   }
 
   async buscarCasa(id: string): Promise<Casa> {

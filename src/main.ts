@@ -34,6 +34,9 @@ app.useGlobalPipes(new ValidationPipe({
     transform: true,
     whitelist: true, // Valida si pasan más información de la necesaria 
     forbidNonWhitelisted: true,
+    transformOptions: {//con esto los tipos se convierten automaticamente
+      enableImplicitConversion: true,
+    }
   }));
 
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {

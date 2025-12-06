@@ -4,6 +4,7 @@ import { UpdateRemodelacionDto } from './dto/update-remodelacion.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Remodelacion } from './entities/remodelacion.entity';
+import { PaginacionQueryDto } from './dto/paginacion-query.dto';
 
 @Injectable()
 export class RemodelacionesService {
@@ -19,6 +20,10 @@ export class RemodelacionesService {
 
     async getRemodelaciones(): Promise<Remodelacion[]> {
         return await this.remodelacionRepository.find();
+    }
+
+    async getRemodelacionesPag({limit , offset}: PaginacionQueryDto): Promise<Remodelacion[]> {
+        return await this.remodelacionRepository.find({ skip: offset, take: limit });
     }
 
     async buscarRemodelacion(id: number): Promise<Remodelacion> {
