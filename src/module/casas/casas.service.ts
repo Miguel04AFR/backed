@@ -23,10 +23,25 @@ export class CasasService {
     return await this.casaRepository.find();
   }
 
-  async getCasasPag({limit , offset}: PaginacionQueryDto): Promise<Casa[]> {
-    return await this.casaRepository.find({ skip: offset, take: limit });
-  }
+ async getCasasPag({limit, offset}: PaginacionQueryDto): Promise<{casas: Casa[], total: number, totalPages: number}> {
+  
+  const take = limit || 3;
+  const skip = offset || 0;
+  
+  const casas = await this.casaRepository.find({ 
+    skip: skip, 
+    take: take 
+  });
+  
+  const total = await this.casaRepository.count();
+  const totalPages = Math.ceil(total / take);
 
+  return {
+    casas,
+    total,
+    totalPages
+  };
+}
   async buscarCasa(id: string): Promise<Casa> {
     const casa = await this.casaRepository.findOne({ where: { id } });
 

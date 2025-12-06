@@ -20,8 +20,8 @@ export class CasasController {
     return await this.casasService.getCasas();
   }
 
-   @Get('pag')
-  async findCasasPag(@Query() paginacion: PaginacionQueryDto): Promise<Casa[]> {   
+  @Get('pag')
+  async findCasasPag(@Query() paginacion: PaginacionQueryDto): Promise<{ casas: Casa[]; total: number; totalPages: number }> {   
     return await this.casasService.getCasasPag(paginacion);
   }
 

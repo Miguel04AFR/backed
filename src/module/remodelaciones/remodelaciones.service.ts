@@ -22,8 +22,24 @@ export class RemodelacionesService {
         return await this.remodelacionRepository.find();
     }
 
-    async getRemodelacionesPag({limit , offset}: PaginacionQueryDto): Promise<Remodelacion[]> {
-        return await this.remodelacionRepository.find({ skip: offset, take: limit });
+    async getRemodelacionesPag({limit, offset}: PaginacionQueryDto): Promise<{remodelaciones: Remodelacion[], total: number, totalPages: number}> {
+      
+      const take = limit || 3;
+      const skip = offset || 0;
+      
+      const remodelaciones = await this.remodelacionRepository.find({ 
+        skip: skip, 
+        take: take 
+      });
+      
+      const total = await this.remodelacionRepository.count();
+      const totalPages = Math.ceil(total / take);
+    
+      return {
+        remodelaciones,
+        total,
+        totalPages
+      };
     }
 
     async buscarRemodelacion(id: number): Promise<Remodelacion> {

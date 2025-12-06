@@ -28,7 +28,7 @@ export class RemodelacionesController {
     }
 
      @Get('pag')
-    async findRemodelacionesPag(@Query() paginacion: PaginacionQueryDto): Promise<Remodelacion[]> {
+    async findRemodelacionesPag(@Query() paginacion: PaginacionQueryDto): Promise<{ remodelaciones: Remodelacion[]; total: number; totalPages: number }> {
         return await this.remodelacionesService.getRemodelacionesPag(paginacion);
     }
 
