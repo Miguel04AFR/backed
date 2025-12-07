@@ -127,5 +127,43 @@ async ascenderUser(gmail: string): Promise<User> {
 }
 
 
+  async guardarRefreshToken(userId: number, refreshToken: string): Promise<void> {
+    // Usa queryBuilder
+    await this.usersRepository
+      .createQueryBuilder() //crea un constructor de consultas
+      .update(User)
+      .set({ 
+        refreshToken: refreshToken, // refreshToken = valor recibido
+        tokenUpdatedAt: () => 'CURRENT_TIMESTAMP' //timestamp actual de BD
+      })
+      .where('id = :id', { id: userId })
+      .execute();   //ejecuta la consulta
+  }
+
+  // Buscar usuario por refresh token
+  async encontrarPorRefreshToken(refreshToken: string): Promise<User> {
+    // Usar queryBuilder para evitar problemas
+    const user = await this.usersRepository
+      .createQueryBuilder('user') //alias 'user' para la tabla users
+      .leftJoinAndSelect('user.role', 'role')// JOIN con tabla roles
+      .where('user.refreshToken = :refreshToken', { refreshToken }) //condicion
+      .getOne(); //Obtener UN registro
+    
+    if (!user) {
+      throw new NotFoundException('Usuario con este refresh token no encontrado');
+    }
+    
+    return user;
+  }
+
+  // Eliminar refresh token
+  async eliminarRefreshToken(userId: number): Promise<void> {
+    await this.usersRepository.update(userId, {
+      refreshToken: undefined,
+      tokenUpdatedAt: new Date()
+    });
+  }
+
+
 }
 

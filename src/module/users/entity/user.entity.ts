@@ -31,6 +31,19 @@ export class User {
   @OneToMany(type => Mensaje,mensaje => mensaje.user )
     mensajes: Mensaje[];
 
+  @Column({ 
+    name: 'refresh_token', // Para postgrest usa snake_case
+    nullable: true 
+  })
+  refreshToken: string;
+
+  @Column({ 
+    name: 'token_updated_at',
+    type: 'timestamp', 
+    nullable: true 
+  })
+  tokenUpdatedAt: Date;
+
 
   @ManyToOne(() => Role, { eager: true }) // eager: true carga el rol automáticamente
   @JoinColumn({ name: 'role_id' })

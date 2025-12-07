@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -25,14 +26,16 @@ if(process.env.NODE_ENV !== 'production'){
     origin: ['https://constructora-c-chang.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+     exposedHeaders: ['set-cookie'],//esto es para que el frontend pueda leer las cookies
   });
 }   
 
-
+ // Middleware para cookies
+  app.use(cookieParser());
 
 app.useGlobalPipes(new ValidationPipe({
     transform: true,
-    whitelist: true, // Valida si pasan más información de la necesaria 
+    whitelist: true, // Valida si pasan mqs información de la necesaria 
     forbidNonWhitelisted: true,
     transformOptions: {//con esto los tipos se convierten automaticamente
       enableImplicitConversion: true,
