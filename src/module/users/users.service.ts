@@ -88,7 +88,7 @@ const hashearContra = await bcrypt.hash(createUserDto.password, 10);
             throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
         }
 
-        await this.usersRepository.remove(eliminarU); // Elimina 1 elemento en la posicion
+        await this.usersRepository.delete(id); // Elimina 1 elemento en la posicion y respeta la cascada
     }
 
      async cambiarRol(userId: number, rol: string): Promise<User> {

@@ -28,11 +28,14 @@ export class User {
    @Column({nullable:false})
   password: string;
 
-  @OneToMany(type => Mensaje,mensaje => mensaje.user )
+  @OneToMany(type => Mensaje, mensaje => mensaje.user, {
+    cascade: true,
+    onDelete: 'CASCADE'      // Esto asegura cascada en la base de datos
+  })
     mensajes: Mensaje[];
 
   @Column({ 
-    name: 'refresh_token', // Para postgrest usa snake_case
+    name: 'refresh_token', 
     nullable: true 
   })
   refreshToken: string;

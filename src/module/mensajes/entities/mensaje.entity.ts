@@ -19,7 +19,9 @@ export class Mensaje {
      @Column({nullable:false})
     motivo: string
 
-    @ManyToOne(type => User, user => user.mensajes, {cascade:true} )
+     @ManyToOne(type => User, user => user.mensajes, {
+    onDelete: 'CASCADE'  // Solo esto es suficiente
+  })
     @JoinColumn({ name: 'user_id' })
     user: User
 
